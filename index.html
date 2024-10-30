@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Almoxarifado</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>Controle de Almoxarifado</h1>
+        
+        <form id="cadastro-form" class="form">
+            <h2>Cadastro de Produto</h2>
+            <input type="text" id="produto-nome" placeholder="Nome do Produto" required>
+            <input type="number" id="produto-quantidade" placeholder="Quantidade" required>
+            <button type="submit">Cadastrar Produto</button>
+        </form>
+
+        <form id="entrada-form" class="form">
+            <h2>Entrada de Produto</h2>
+            <select id="entrada-produto"></select>
+            <input type="number" id="entrada-quantidade" placeholder="Quantidade" required>
+            <button type="submit">Registrar Entrada</button>
+        </form>
+
+        <form id="saida-form" class="form">
+            <h2>Saída de Produto</h2>
+            <select id="saida-produto"></select>
+            <input type="number" id="saida-quantidade" placeholder="Quantidade" required>
+            <button type="submit">Registrar Saída</button>
+        </form>
+
+        <div class="buttons">
+            <button id="limpar">Limpar Tela do Relatório</button>
+            <button id="voltar">Voltar</button>
+        </div>
+
+        <div id="relatorio-resultado" class="relatorio"></div>
+    </div>
+
+    <script src="script.js"></script> 
+</body>
+</html>
