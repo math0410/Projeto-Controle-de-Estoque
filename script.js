@@ -20,11 +20,21 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
     const nome = document.getElementById("produto-nome").value.trim();
+    const descricao = document.getElementById("produto-descricao").value.trim();
+    const codigo = document.getElementById("produto-codigo").value.trim();
+    const unidade = document.getElementById("produto-unidade").value.trim();
     const quantidade = parseInt(
       document.getElementById("produto-quantidade").value
     );
 
-    if (!nome || isNaN(quantidade) || quantidade <= 0) {
+    if (
+      !nome ||
+      isNaN(quantidade) ||
+      quantidade <= 0 ||
+      !descricao ||
+      !codigo ||
+      !unidade
+    ) {
       alert("Por favor, insira um nome válido e uma quantidade positiva.");
       return;
     }
@@ -37,7 +47,7 @@ document
       return;
     }
 
-    produtos.push({ nome, quantidade });
+    produtos.push({ nome, quantidade, descricao, codigo, unidade });
     salvarProdutos();
     alert("Produto cadastrado com sucesso!");
     document.getElementById("cadastro-form").reset();
@@ -50,6 +60,9 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
     const produtoNome = document.getElementById("entrada-produto").value;
+    const produtoDescricao = document.getElementById("entrada-descricao").value;
+    const produtoCodigo = document.getElementById("entrada-codigo").value;
+    const produtoUnidade = document.getElementById("entrada-unidade").value;
     const quantidade = parseInt(
       document.getElementById("entrada-quantidade").value
     );
@@ -57,6 +70,9 @@ document
     const produto = produtos.find((p) => p.nome === produtoNome);
     if (produto) {
       produto.quantidade += quantidade;
+      produto.descricao = produtoDescricao;
+      produto.codigo = produtoCodigo;
+      produto.unidade = produtoUnidade;
       salvarProdutos();
       alert("Entrada registrada com sucesso!");
       document.getElementById("entrada-form").reset();
@@ -71,6 +87,9 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
     const produtoNome = document.getElementById("saida-produto").value;
+    const produtoDescricao = document.getElementById("saida-descricao").value;
+    const produtoCodigo = document.getElementById("saida-codigo").value;
+    const produtoUnidade = document.getElementById("saida-unidade").value;
     const quantidade = parseInt(
       document.getElementById("saida-quantidade").value
     );
@@ -110,22 +129,27 @@ function atualizarSelects() {
 
 function atualizarRelatorio() {
   let relatorio =
-    "<h3>Relatório de Produtos</h3><table><tr><th>Produto</th><th>Quantidade</th></tr>";
+    "<h3>Relatório de Produtos</h3><table><tr><th>Produto</th><th>Quantidade</th><th>Descrição</th><th>Código</th><th>Unidade</th></tr>";
   produtos.forEach((produto) => {
     if (produto.quantidade > 0) {
       relatorio += `
                 <tr>
                     <td>${produto.nome}</td>
                     <td>${produto.quantidade}</td>
+                    <td>${produto.descricao}</td>
+                    <td>${produto.codigo}</td>
+                    <td>${produto.unidade}</td>
                 </tr>`;
     }
   });
   relatorio += "</table>";
   document.getElementById("relatorio-resultado").innerHTML = relatorio;
+  
 }
 
 function limparTelaRelatorio() {
   document.getElementById("relatorio-resultado").innerHTML = "";
+  
 }
 
 function voltar() {
