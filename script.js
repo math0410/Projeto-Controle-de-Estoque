@@ -90,6 +90,7 @@ document
     const produtoDescricao = document.getElementById("saida-descricao").value;
     const produtoCodigo = document.getElementById("saida-codigo").value;
     const produtoUnidade = document.getElementById("saida-unidade").value;
+    const produtoUsuario = document.getElementById("saida-usuario").value;
     const quantidade = parseInt(
       document.getElementById("saida-quantidade").value
     );
@@ -97,6 +98,10 @@ document
     const produto = produtos.find((p) => p.nome === produtoNome);
     if (produto && produto.quantidade >= quantidade) {
       produto.quantidade -= quantidade;
+      produto.descricao = produtoDescricao;
+      produto.codigo = produtoCodigo;
+      produto.unidade = produtoUnidade;
+      produto.usuario = produtoUsuario;
 
       if (produto.quantidade === 0) {
         produtos = produtos.filter((p) => p.nome !== produto.nome);
@@ -144,12 +149,10 @@ function atualizarRelatorio() {
   });
   relatorio += "</table>";
   document.getElementById("relatorio-resultado").innerHTML = relatorio;
-  
 }
 
 function limparTelaRelatorio() {
   document.getElementById("relatorio-resultado").innerHTML = "";
-  
 }
 
 function voltar() {
