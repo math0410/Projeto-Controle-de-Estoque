@@ -23,18 +23,9 @@ document
     const descricao = document.getElementById("produto-descricao").value.trim();
     const codigo = document.getElementById("produto-codigo").value.trim();
     const unidade = document.getElementById("produto-unidade").value.trim();
-    const quantidade = parseInt(
-      document.getElementById("produto-quantidade").value
-    );
+    const usuario = document.getElementById("cadastro-usuario").value.trim();
 
-    if (
-      !nome ||
-      isNaN(quantidade) ||
-      quantidade <= 0 ||
-      !descricao ||
-      !codigo ||
-      !unidade
-    ) {
+    if (!nome || !descricao || !codigo || !unidade || !usuario) {
       alert("Por favor, insira um nome válido e uma quantidade positiva.");
       return;
     }
@@ -47,12 +38,35 @@ document
       return;
     }
 
-    produtos.push({ nome, quantidade, descricao, codigo, unidade });
+    produtos.push({ nome, quantidade: 0, descricao, codigo, unidade, usuario });
     salvarProdutos();
     alert("Produto cadastrado com sucesso!");
     document.getElementById("cadastro-form").reset();
+
     atualizarSelects();
     atualizarRelatorio();
+  });
+
+document
+  .getElementById("entrada-codigo")
+  .addEventListener("change", function (event) {
+    event.preventDefault();
+    const codigo = event.target.value;
+    const produtos = JSON.parse(localStorage.getItem("produtos"));
+    const produto = produtos.find((item) => item.codigo === codigo);
+    const produtoNome = document.getElementById("entrada-produto");
+    const produtoDescricao = document.getElementById("entrada-descricao");
+    const produtoCodigo = document.getElementById("entrada-codigo");
+    const produtoUnidade = document.getElementById("entrada-unidade");
+    const produtoUsuario = document.getElementById("entrada-usuario");
+    const quantidade = document.getElementById("entrada-quantidade");
+
+    produtoDescricao.value = produto.descricao;
+    produtoNome.value = produto.nome;
+    produtoCodigo.value = produto.codigo;
+    produtoUnidade.value = produto.unidade;
+    produtoUsuario.value = produto.usuario;
+    quantidade.value = produto.quantidade;
   });
 
 document
@@ -63,6 +77,7 @@ document
     const produtoDescricao = document.getElementById("entrada-descricao").value;
     const produtoCodigo = document.getElementById("entrada-codigo").value;
     const produtoUnidade = document.getElementById("entrada-unidade").value;
+    const produtoUsuario = document.getElementById("entrada-usuario").value;
     const quantidade = parseInt(
       document.getElementById("entrada-quantidade").value
     );
@@ -73,6 +88,7 @@ document
       produto.descricao = produtoDescricao;
       produto.codigo = produtoCodigo;
       produto.unidade = produtoUnidade;
+      produto.usuario = produtoUsuario;
       salvarProdutos();
       alert("Entrada registrada com sucesso!");
       document.getElementById("entrada-form").reset();
@@ -80,6 +96,28 @@ document
     } else {
       alert("Produto não encontrado!");
     }
+  });
+
+document
+  .getElementById("saida-codigo")
+  .addEventListener("change", function (event) {
+    event.preventDefault();
+    const codigo = event.target.value;
+    const produtos = JSON.parse(localStorage.getItem("produtos"));
+    const produto = produtos.find((item) => item.codigo === codigo);
+    const produtoNome = document.getElementById("saida-produto");
+    const produtoDescricao = document.getElementById("saida-descricao");
+    const produtoCodigo = document.getElementById("saida-codigo");
+    const produtoUnidade = document.getElementById("saida-unidade");
+    const produtoUsuario = document.getElementById("saida-usuario");
+    const quantidade = document.getElementById("saida-quantidade");
+
+    produtoDescricao.value = produto.descricao;
+    produtoNome.value = produto.nome;
+    produtoCodigo.value = produto.codigo;
+    produtoUnidade.value = produto.unidade;
+    produtoUsuario.value = produto.usuario;
+    quantidade.value = produto.quantidade;
   });
 
 document
@@ -125,27 +163,28 @@ function atualizarSelects() {
   saidaSelect.innerHTML = '<option value="">Selecione um Produto</option>';
 
   produtos.forEach((produto) => {
-    if (produto.quantidade > 0) {
-      entradaSelect.innerHTML += `<option value="${produto.nome}">${produto.nome}</option>`;
-      saidaSelect.innerHTML += `<option value="${produto.nome}">${produto.nome}</option>`;
-    }
+    
+    entradaSelect.innerHTML += `<option value="${produto.nome}">${produto.nome}</option>`;
+    saidaSelect.innerHTML += `<option value="${produto.nome}">${produto.nome}</option>`;
+   
   });
 }
 
 function atualizarRelatorio() {
   let relatorio =
-    "<h3>Relatório de Produtos</h3><table><tr><th>Produto</th><th>Quantidade</th><th>Descrição</th><th>Código</th><th>Unidade</th></tr>";
+    "<h3>Relatório de Produtos</h3><table><tr><th>Produto</th><th>Quantidade</th><th>Descrição</th><th>Código</th><th>Unidade</th><th>Usuario</th></tr>";
   produtos.forEach((produto) => {
-    if (produto.quantidade > 0) {
-      relatorio += `
-                <tr>
-                    <td>${produto.nome}</td>
-                    <td>${produto.quantidade}</td>
-                    <td>${produto.descricao}</td>
-                    <td>${produto.codigo}</td>
-                    <td>${produto.unidade}</td>
-                </tr>`;
-    }
+   
+    relatorio += `
+        <tr>
+            <td>${produto.nome}</td>
+            <td>${produto.quantidade}</td>
+            <td>${produto.descricao}</td>
+            <td>${produto.codigo}</td>
+            <td>${produto.unidade}</td>
+            <td>${produto.usuario}</td>
+        </tr>`;
+  
   });
   relatorio += "</table>";
   document.getElementById("relatorio-resultado").innerHTML = relatorio;
