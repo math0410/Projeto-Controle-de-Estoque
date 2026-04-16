@@ -1,4 +1,4 @@
-https://github.com/math0410/Projeto-Controle-de-Estoque
+https://math0410.github.io/Projeto-Controle-de-Estoque/
 
 📦 Sistema de Controle de Estoque
 
